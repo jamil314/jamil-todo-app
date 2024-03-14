@@ -55,10 +55,6 @@ const TaskForm = ({createTask, setshowModal, oldTask}) => {
         createTask(formDataObject);
     }
 
-    const resetForm = () => {
-        
-    }
-
     return (
     <TaskFormComponent onSubmit={submitForm}>
         <InputGroup>
@@ -94,7 +90,7 @@ const TaskForm = ({createTask, setshowModal, oldTask}) => {
             </SelectField>
         </InputGroup>
         <ButtonGroup>
-            <Button onClick = {() => setshowModal(false)}> Cancel </Button>
+            <Button onClick={() => setshowModal(false)}> Cancel </Button>
             <Button> Reset </Button>
             <Button type='submit'> confirm </Button>
         </ButtonGroup>

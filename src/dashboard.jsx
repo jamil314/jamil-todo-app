@@ -13,7 +13,7 @@ const AddTaskButton = styled.button`
 const Dashboard = ({setshowModal}) => {
   return (
     <DashboardContainer>
-        <AddTaskButton onClick ={ () => {setshowModal(true)}}>
+        <AddTaskButton onClick={()=>{setshowModal(true)}}>
             + New Task
         </AddTaskButton>    
     </DashboardContainer>

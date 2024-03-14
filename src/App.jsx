@@ -29,12 +29,12 @@ const App = () => {
   }
   return (
     <RootContainer>
-      <Modal showModal = {showModal} closeModal = {() => setshowModal(false)}>
-        <TaskForm createTask = {createTask} setshowModal = {setshowModal}/>
+      <Modal showModal={showModal} closeModal={() => setshowModal(false)}>
+        <TaskForm createTask={createTask} setshowModal={setshowModal}/>
       </Modal>
-      <Dashboard setshowModal = {setshowModal} />
+      <Dashboard setshowModal={setshowModal} />
       <TaskList>
-        {tasks.map(task => {return <Task task = {task}/>})} 
+        {tasks.map(task => {return <Task task={task} key={task.id}/>})} 
       </TaskList>
     </RootContainer>
   )

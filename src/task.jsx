@@ -7,7 +7,7 @@ import Edit from './assets/edit.png'
 const Task = ({task}) => {
     const TaskCard = styled.li`
     list-style: none;
-    opacity: ${task.status == "Done" ? 0.5 : 1};
+    opacity: ${task.status==="Done" ? 0.5 : 1};
     background-color: var(--color-secondary);
     padding: 12px;
     margin: 10px;
@@ -77,7 +77,7 @@ const Tag = styled.div`
                 <Tag>{task.priority}</Tag>
             </div>
         </Header>
-        <text>{task.description}</text>
+        <span>{task.description}</span>
     </TaskCard>
   )
 }
