@@ -1,21 +1,17 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import styled from "styled-components";
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
-    );
-  }
+const RootContainer = styled.div`
+  height: 100vh;
+  width: 100vw;
+  background-color: var(--color-primary);
+  color: var(--color-text);
+`
+
+const ToDo = () => {
+  return (
+    <RootContainer>ToDo</RootContainer>
+  )
 }
 
-export default App;
+export default ToDo

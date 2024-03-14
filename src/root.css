@@ -1,0 +1,12 @@
+:root{
+  --color-primary: #070F2B;
+  --color-secondary: #1B1A55;
+  --color-bg: #535C91;
+  --color-light: #9290C3;
+  --color-text: #C7C8CC;
+}
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
