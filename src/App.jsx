@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import styled from 'styled-components'
-import { mockTasks } from "./mockTasks"
 import Task from "./task"
 import Modal from "./Modal";
 import TaskForm from "./taskForm";
 import Dashboard from './dashboard';
+import { useStore } from "./StoreHandler";
 
 const RootContainer = styled.div`
   height: 100vh;
@@ -15,22 +15,19 @@ const RootContainer = styled.div`
 `
 const TaskList = styled.ul`
   margin: 0;
-  padding: 0;
+  padding: 0 10px;
   width: 90vw;
   align-items: center;
   overflow-y: scroll;
 `
 const App = () => {
-  const [tasks, setTasks] = useState(mockTasks)
   const [showModal, setshowModal] = useState(false)
-  const createTask = newTask => {
-    setTasks([...tasks, newTask])
-    setshowModal(false)
-  }
+  
+  const tasks = useStore((state) => state.tasks);
   return (
     <RootContainer>
       <Modal showModal={showModal} closeModal={() => setshowModal(false)}>
-        <TaskForm createTask={createTask} setshowModal={setshowModal}/>
+        <TaskForm setshowModal={setshowModal}/>
       </Modal>
       <Dashboard setshowModal={setshowModal} />
       <TaskList>

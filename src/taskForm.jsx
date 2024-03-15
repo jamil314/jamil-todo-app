@@ -1,5 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
+import { useStore } from "./StoreHandler";
+
 const TaskFormComponent = styled.form`
     background-color: var(--color-secondary);
     color: var(--color-text);
@@ -42,17 +44,17 @@ const Button = styled.button`
     font-size: large;
 `
 
-const TaskForm = ({createTask, setshowModal, oldTask}) => {
+const TaskForm = ({setshowModal, oldTask}) => {
+    const addTask = useStore((state) => state.addTask);
 
     const submitForm = e => {
         e.preventDefault();
         const formData = new FormData(e.target);
-        const formDataObject = {};
+        const newTask = {};
         formData.forEach((value, key) => {
-            formDataObject[key] = value;
+            newTask[key] = value;
         });
-        console.log(formDataObject);
-        createTask(formDataObject);
+        addTask(newTask)
     }
 
     return (
