@@ -2,6 +2,27 @@
 
 export const mockTasks = [
     {
+    "id": 0,
+    "title": "Sample Task For Explaing The Features",
+    "description": "This task consists of 10 subtasks or milestones. Marking each task as completed will advance the progress bar. If all 10 subtasks are marked as completed, the task will be marked as done. Once the task is marked as done, it will fade away. The task's priority is represented by the number of arms of the star that are colored.",
+    "priority": 3,
+    "status": 'toDo',
+    "createdAt": "10/20/2023",
+    "updatedAt": "5/31/2023",
+    "deadLine": "12/30/2023",
+    milestones: [
+      {title: 'Subtask 1', done:'on'},
+      {title: 'Subtask 2', done:'on'},
+      {title: 'Subtask 3', done:'on'},
+      {title: 'Subtask 4'},
+      {title: 'Subtask 5'},
+      {title: 'Subtask 6'},
+      {title: 'Subtask 7'},
+      {title: 'Subtask 8'},
+      {title: 'Subtask 9'},
+      {title: 'Subtask 10'},
+    ]
+   }, {
     "id": 1,
     "title": "Ameliorated upward-trending workforce",
     "description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin risus. Praesent lectus.\n\nVestibulum quam sapien, varius ut, blandit non, interdum in, ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio. Curabitur convallis.\n\nDuis consequat dui nec nisi volutpat eleifend. Donec ut dolor. Morbi vel lectus in quam fringilla rhoncus.\n\nMauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero.\n\nNullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh.",

@@ -87,7 +87,8 @@ const TaskForm = () => {
     }
 
     const [milestones, setMilestones] = useState(defaultTask.milestones);
-
+    const [priority, setPriority] = useState(defaultTask.priority);
+    
     const submitForm = e => {
         e.preventDefault();
         const formData = new FormData(e.target);
@@ -100,6 +101,7 @@ const TaskForm = () => {
             } else newTask[key] = value;
         });
 
+        newTask.priority = priority;
         newTask.updatedAt = new Date();
         newTask.milestones = Object.values(tmpMilestones);
         defaultTask.id ? updateTask(newTask) : addTask({...newTask, id: uid(), createdAt: newTask.updatedAt})
@@ -134,11 +136,31 @@ const TaskForm = () => {
 
         <InputGroup>
             <Label>Priority :</Label>
-            <img alt='' src={StarOn}/>
-            <img alt='' src={StarOn}/>
-            <img alt='' src={StarOn}/>
-            <img alt='' src={StarOff}/>
-            <img alt='' src={StarOff}/>
+            <img 
+                alt=''
+                src={priority > 0 ? StarOn : StarOff}
+                onClick={() => setPriority(1)}    
+            />
+            <img 
+                alt=''
+                src={priority > 1 ? StarOn : StarOff}
+                onClick={() => setPriority(2)}    
+            />
+            <img 
+                alt=''
+                src={priority > 2 ? StarOn : StarOff}
+                onClick={() => setPriority(3)}    
+            />
+            <img 
+                alt=''
+                src={priority > 3 ? StarOn : StarOff}
+                onClick={() => setPriority(4)}    
+            />
+            <img 
+                alt=''
+                src={priority > 4 ? StarOn :StarOff}
+                    onClick={() => setPriority(5)}    
+                />
         </InputGroup>
         <InputGroup>
             <Label>Milestones :</Label>

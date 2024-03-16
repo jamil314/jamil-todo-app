@@ -5,6 +5,13 @@ import Delete from './assets/delete.png'
 import Edit from './assets/edit.png'
 import { useCreateOrUpdateTaskStore, useTaskStore } from './StoreHandler';
 import ConfirmationModal from './confirmationModal';
+import StarOff from './assets/star-off.png'
+import oneStar from './assets/star-1.png'
+import twoStar from './assets/star-2.png'
+import threeStar from './assets/star-3.png'
+import fourStar from './assets/star-4.png'
+import fiveStar from './assets/star-on.png'
+import CircularProgressBar from './circularProgressbar';
 
 const Task = ({task}) => {
 
@@ -16,7 +23,9 @@ const Task = ({task}) => {
 
     // console.log(totalMilestone, completedMilestone);
 
-    task.status = task.milestones.length === 0 ? task.status : totalMilestone === completedMilestone ? "Done" : "Pending"
+    if(task.status !== 'Done')
+        task.status = task.milestones.length === 0 ? task.status : 
+        totalMilestone === completedMilestone ? "Done" : "Pending"
 
     const TaskCard = styled.li`
     list-style: none;
@@ -69,13 +78,13 @@ const Title = styled.div`
     font-size: xx-large;
     font-weight: 800;
 `
-const Tag = styled.div`
-    border: 1px solid;
-    margin: 2px;
-    padding: 0 8px;
-    height: 24px;
-    border-radius: 24px;
-`
+// const Tag = styled.div`
+//     border: 1px solid;
+//     margin: 2px;
+//     padding: 0 8px;
+//     height: 24px;
+//     border-radius: 24px;
+// `
 
 const deleteTask = useTaskStore((state) => state.deleteTask);
 const updateTASK = useTaskStore((state) => state.updateTask);
@@ -95,14 +104,18 @@ const updateTask = useCreateOrUpdateTaskStore((state) => state.updateTask);
             {/* <ActionButton src={Delete} onClick={() => deleteTask(task.id)} /> */}
             <ActionButton src={Delete} onClick={() => setAction('delete')} />
             <ActionButton src={Edit} onClick={() => updateTask(task)}/>
-            <ActionButton src={Done} onClick={() => {task.status = 'Done'; updateTASK(task)}}/>
+            <ActionButton src={Done} onClick={() => {task.status = task.status==='Done'?'Pending' : 'Done'; updateTASK(task)}}/>
         </Action>
         <Header>
             <Title>{task.title}</Title>
-            <div className="tags">
-                <Tag>{task.status}</Tag>
-                <Tag>{task.priority}</Tag>
+            <div>
+                <img
+                    alt='Priority'
+                    src={[StarOff, oneStar, twoStar, threeStar, fourStar, fiveStar][task.priority]}
+                    height={40}
+                />
             </div>
+            <CircularProgressBar total={totalMilestone || 1} completed={completedMilestone} />
         </Header>
         <span>{task.description}</span>
         {/* {task.milestones.length? <span><br/>Milestones</span> : null} */}
