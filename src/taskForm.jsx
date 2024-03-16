@@ -21,9 +21,9 @@ const InputField = styled.input`
     font-size: large;
     width: 500px
 `
-const SelectField = styled.select`
+/* const SelectField = styled.select`
     font-size: large;
-`
+` */
 const InputGroup = styled.div`
     padding: 4px 0;
     display: flex;
@@ -134,11 +134,11 @@ const TaskForm = () => {
 
         <InputGroup>
             <Label>Priority :</Label>
-            <img src={StarOn}/>
-            <img src={StarOn}/>
-            <img src={StarOn}/>
-            <img src={StarOff}/>
-            <img src={StarOff}/>
+            <img alt='' src={StarOn}/>
+            <img alt='' src={StarOn}/>
+            <img alt='' src={StarOn}/>
+            <img alt='' src={StarOff}/>
+            <img alt='' src={StarOff}/>
         </InputGroup>
         <InputGroup>
             <Label>Milestones :</Label>

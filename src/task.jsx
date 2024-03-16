@@ -16,7 +16,7 @@ const Task = ({task}) => {
 
     // console.log(totalMilestone, completedMilestone);
 
-    task.status = task.milestones.length == 0 ? task.status : totalMilestone == completedMilestone ? "Done" : "Pending"
+    task.status = task.milestones.length === 0 ? task.status : totalMilestone === completedMilestone ? "Done" : "Pending"
 
     const TaskCard = styled.li`
     list-style: none;
