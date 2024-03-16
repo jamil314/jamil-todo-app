@@ -1,10 +1,23 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from "styled-components";
 import Done from './assets/done.png'
 import Delete from './assets/delete.png'
 import Edit from './assets/edit.png'
+import { useCreateOrUpdateTaskStore, useTaskStore } from './StoreHandler';
+import ConfirmationModal from './confirmationModal';
 
 const Task = ({task}) => {
+
+    const {totalMilestone, completedMilestone} = task.milestones.reduce((acc, cur) => {
+        acc.totalMilestone++;
+        if(cur.done) acc.completedMilestone++;
+        return acc;
+    }, {totalMilestone: 0, completedMilestone: 0})
+
+    // console.log(totalMilestone, completedMilestone);
+
+    task.status = task.milestones.length == 0 ? task.status : totalMilestone == completedMilestone ? "Done" : "Pending"
+
     const TaskCard = styled.li`
     list-style: none;
     opacity: ${task.status==="Done" ? 0.5 : 1};
@@ -63,12 +76,26 @@ const Tag = styled.div`
     height: 24px;
     border-radius: 24px;
 `
+
+const deleteTask = useTaskStore((state) => state.deleteTask);
+const updateTASK = useTaskStore((state) => state.updateTask);
+const updateTask = useCreateOrUpdateTaskStore((state) => state.updateTask);
+
+    const [action, setAction] = useState(null)
+
   return (
     <TaskCard>
+        <ConfirmationModal 
+            showConfirmation={action === 'delete'}
+            onAbort={() => setAction(null)}
+            onConfirm={() => {deleteTask(task.id); setAction(null)}}
+            alertText='Are you sure you want to delete this task?'
+        />
         <Action className="action">
-            <ActionButton src={Delete} hint="Delete"/>
-            <ActionButton src={Edit}/>
-            <ActionButton src={Done}/>
+            {/* <ActionButton src={Delete} onClick={() => deleteTask(task.id)} /> */}
+            <ActionButton src={Delete} onClick={() => setAction('delete')} />
+            <ActionButton src={Edit} onClick={() => updateTask(task)}/>
+            <ActionButton src={Done} onClick={() => {task.status = 'Done'; updateTASK(task)}}/>
         </Action>
         <Header>
             <Title>{task.title}</Title>
@@ -78,6 +105,23 @@ const Tag = styled.div`
             </div>
         </Header>
         <span>{task.description}</span>
+        {/* {task.milestones.length? <span><br/>Milestones</span> : null} */}
+        {task.milestones.map((milestone, index) => {
+            return (
+                <div>
+                    <input 
+                        type='checkbox' 
+                        defaultChecked={milestone.done}
+                        onClick={() => {
+                            task.milestones[index].done = !milestone.done;
+                            updateTASK(task)
+
+                        }}
+                    />
+                    <span>{milestone.title}</span>
+                </div>
+            )
+        })}
     </TaskCard>
   )
 }

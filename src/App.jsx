@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from 'styled-components'
 import Task from "./task"
-import Modal from "./Modal";
-import TaskForm from "./taskForm";
 import Dashboard from './dashboard';
-import { useStore } from "./StoreHandler";
+import { useTaskStore } from "./StoreHandler";
+import TaskModal from "./taskModal";
 
 const RootContainer = styled.div`
   height: 100vh;
@@ -15,21 +14,18 @@ const RootContainer = styled.div`
 `
 const TaskList = styled.ul`
   margin: 0;
-  padding: 0 10px;
+  padding: 0;
+  padding-right: 20px;
   width: 90vw;
   align-items: center;
   overflow-y: scroll;
 `
-const App = () => {
-  const [showModal, setshowModal] = useState(false)
-  
-  const tasks = useStore((state) => state.tasks);
+const App = () => {  
+  const tasks = useTaskStore((state) => state.tasks);
   return (
     <RootContainer>
-      <Modal showModal={showModal} closeModal={() => setshowModal(false)}>
-        <TaskForm setshowModal={setshowModal}/>
-      </Modal>
-      <Dashboard setshowModal={setshowModal} />
+      <TaskModal/>
+      <Dashboard/>
       <TaskList>
         {tasks.map(task => {return <Task task={task} key={task.id}/>})} 
       </TaskList>

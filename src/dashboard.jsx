@@ -1,5 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
+import { useCreateOrUpdateTaskStore } from './StoreHandler'
+
 
 const DashboardContainer = styled.div`
     width: 300px;
@@ -13,7 +15,7 @@ const AddTaskButton = styled.button`
 const Dashboard = ({setshowModal}) => {
   return (
     <DashboardContainer>
-        <AddTaskButton onClick={()=>{setshowModal(true)}}>
+        <AddTaskButton onClick={useCreateOrUpdateTaskStore(state => state.createTask)}>
             + New Task
         </AddTaskButton>    
     </DashboardContainer>

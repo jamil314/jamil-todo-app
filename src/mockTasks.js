@@ -9,7 +9,12 @@ export const mockTasks = [
     "status": 3,
     "createdAt": "10/20/2023",
     "updatedAt": "5/31/2023",
-    "deadLine": "12/30/2023"
+    "deadLine": "12/30/2023",
+    milestones: [
+      {title: 'First Step', done:'on'},
+      {title: 'Almost there', done:'on'},
+      {title: 'Congratulations'},
+    ]
   }, {
     "id": 2,
     "title": "Triple-buffered optimizing flexibility",
@@ -18,7 +23,8 @@ export const mockTasks = [
     "status": 2,
     "createdAt": "8/20/2023",
     "updatedAt": "6/14/2023",
-    "deadLine": "3/17/2023"
+    "deadLine": "3/17/2023",
+    milestones:[],
   }, {
     "id": 3,
     "title": "Horizontal bottom-line utilisation",
@@ -27,7 +33,8 @@ export const mockTasks = [
     "status": 1,
     "createdAt": "11/12/2023",
     "updatedAt": "12/3/2023",
-    "deadLine": "9/22/2023"
+    "deadLine": "9/22/2023",
+    milestones:[],
   }, {
     "id": 4,
     "title": "Universal didactic framework",
@@ -36,7 +43,8 @@ export const mockTasks = [
     "status": 1,
     "createdAt": "12/13/2023",
     "updatedAt": "9/29/2023",
-    "deadLine": "1/7/2024"
+    "deadLine": "1/7/2024",
+    milestones:[],
   }, {
     "id": 5,
     "title": "Polarised maximized function",
@@ -45,7 +53,8 @@ export const mockTasks = [
     "status": 2,
     "createdAt": "6/5/2023",
     "updatedAt": "6/22/2023",
-    "deadLine": "1/26/2024"
+    "deadLine": "1/26/2024",
+    milestones:[],
   }, {
     "id": 6,
     "title": "Customizable 4th generation projection",
@@ -54,7 +63,8 @@ export const mockTasks = [
     "status": 1,
     "createdAt": "12/11/2023",
     "updatedAt": "8/31/2023",
-    "deadLine": "1/22/2024"
+    "deadLine": "1/22/2024",
+    milestones:[],
   }, /*{
     "id": 7,
     "title": "Cloned fresh-thinking solution",

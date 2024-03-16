@@ -1,9 +1,11 @@
 import React from 'react'
 import styled from "styled-components";
 import { createPortal } from "react-dom"
+import TaskForm from './taskForm';
+import { useCreateOrUpdateTaskStore } from './StoreHandler';
 
 
-const ModalBg = styled.div`
+export const ModalBg = styled.div`
   height: 100vh;
   width: 100vw;
   position: fixed;
@@ -14,34 +16,20 @@ const ModalBg = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  .closeModal{
-    position: fixed;
-    right: 20px;
-    top: 10px;
-    background-color: blue;
-    border: none;
-    border-radius: 40px;
-    height: 40px;
-    width: 40px;
-    font-size: xx-large;
-    :hover{
-      cursor: pointer;
-    }
-  }
-
 `
-const Modal = ({showModal, children}) => {
+const TaskModal = () => {
   return (
     <div>
-      {showModal &&
+      {useCreateOrUpdateTaskStore(state => state.taskModal.open) && 
         createPortal(
           <ModalBg>
-              {children}
+            <TaskForm/>
           </ModalBg>,
           document.body
-        )}
+        )
+      }
     </div>
   )
 }
 
-export default Modal
+export default TaskModal
