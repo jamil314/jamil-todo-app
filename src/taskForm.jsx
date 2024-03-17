@@ -136,21 +136,25 @@ const TaskForm = () => {
 
     const handleChangeMilestone = e => {
         const {name, value} = e.target;
+        // eslint-disable-next-line
         const [field, id, attribute] = name.split('.');
         switch (attribute) {
             case 'done':
                 setMilestones(milestones.map((milestone, idx) => {
+                    // eslint-disable-next-line
                     if(id == idx) milestone.done = !milestone.done
                     return milestone
                 }))
                 return;
                 case 'title':
                 setMilestones(milestones.map((milestone, idx) => {
+                    // eslint-disable-next-line
                     if(id == idx) milestone.title = value
                     return milestone
                 }))
                 return;
             case 'delete':
+            // eslint-disable-next-line
                 setMilestones(milestones.filter((milestone, idx) => id != idx))
                 return;
             default :
