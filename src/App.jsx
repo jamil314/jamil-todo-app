@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from 'styled-components'
 import Task from "./task"
 import Dashboard from './dashboard';
-import { useTaskStore } from "./StoreHandler";
+import { useFilterStore, useTaskStore } from "./StoreHandler";
 import TaskModal from "./taskModal";
 
 const RootContainer = styled.div`
@@ -20,8 +20,25 @@ const TaskList = styled.ul`
   align-items: center;
   overflow-y: scroll;
 `
+
+
 const App = () => {  
-  const tasks = useTaskStore((state) => state.tasks);
+  const getTasks = useTaskStore((state) => state.getSortedFilteredTasks);
+  const [tasks, setTasks] = useState(getTasks())
+  useEffect(() => {
+    const unsubscribeTasks = useTaskStore.subscribe(
+      (tasks) => {setTasks(getTasks())},
+      (state) => state.tasks
+    );
+    const unsubscribeFilter = useFilterStore.subscribe(
+      (filter) => {setTasks(getTasks())},
+      (state) => state.filter
+    );
+  
+    return () => {
+      unsubscribeTasks();
+      unsubscribeFilter();
+    };  }, [])
   return (
     <RootContainer>
       <TaskModal/>
@@ -34,3 +51,11 @@ const App = () => {
 }
 
 export default App
+
+
+/*
+
+
+
+
+  */

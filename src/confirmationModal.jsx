@@ -27,7 +27,6 @@ const Button = styled.button`
 `
 
 const ConfirmationModal = ({showConfirmation, onConfirm, onAbort, alertText}) => {
-  console.log(showConfirmation);
   return (
     <div>
       {showConfirmation && 

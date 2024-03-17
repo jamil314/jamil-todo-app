@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useCreateOrUpdateTaskStore, useTaskStore } from "./StoreHandler";
 import { uid } from 'uid';
 import StarOn from './assets/star-on.png'
 import StarOff from './assets/star-off.png'
+import Delete from './assets/remove.png'
 
 
 const TaskFormComponent = styled.form`
@@ -37,7 +38,10 @@ const Label = styled.div`
 `
 
 const MilestoneGroup = styled.div`
-    
+    max-height: 50vh;
+    overflow-y: scroll;
+    padding-right: 8px;
+    scrollbar-width: thin;
 `
 
 const ButtonGroup = styled.div`
@@ -56,10 +60,31 @@ const Button = styled.button`
     color: black;
     font-size: large;
 `
+const MileItem = styled.div`
+    height: 24px;
+    margin: 6px 4px;
+    margin-right: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+`
+const AddMileBtn = styled.button`
+    width: 100%;
+    min-width: 250px;
+    margin-top: 12px;
+    padding: 4px 0;
+    border-radius: 20px;
+    transition: all 0.3s;
+    &:hover{
+        cursor: pointer;
+        word-spacing: 8px;
+        letter-spacing: 2px
+    }
+`
+
 const CheckField = styled.input`
     height: 20px;
     width: 20px;
-    margin: 8px;
 `
 
 const ConfirmModal = styled.div`
@@ -76,6 +101,8 @@ const TaskForm = () => {
 
     const [showConfirmation, setShowConfirmation] = useState(false);
     const [showResetConfirmation, setShowResetConfirmation] = useState(false);
+    const [milestones, setMilestones] = useState([]);
+    const [priority, setPriority] = useState(0);
     
     const addTask = useTaskStore((state) => state.addTask);
     const updateTask = useTaskStore((state) => state.updateTask);
@@ -86,28 +113,51 @@ const TaskForm = () => {
         milestones: [],
     }
 
-    const [milestones, setMilestones] = useState(defaultTask.milestones);
-    const [priority, setPriority] = useState(defaultTask.priority);
+    useEffect(() => {
+        setMilestones(defaultTask.milestones)
+        setPriority(defaultTask.priority)
+    }, []);
     
     const submitForm = e => {
         e.preventDefault();
         const formData = new FormData(e.target);
         const newTask = defaultTask;
-        const tmpMilestones = {}
         formData.forEach((value, key) => {
-            if(key.startsWith('milestone')) {
-                const keys = key.split('.');
-                tmpMilestones[keys[1]] = ({...tmpMilestones[keys[1]], [keys[2]]:value});
-            } else newTask[key] = value;
+            if(!key.startsWith('milestone'))
+                newTask[key] = value;
         });
 
         newTask.priority = priority;
+        newTask.milestones = milestones;
         newTask.updatedAt = new Date();
-        newTask.milestones = Object.values(tmpMilestones);
         defaultTask.id ? updateTask(newTask) : addTask({...newTask, id: uid(), createdAt: newTask.updatedAt})
         closeModal();
     }
 
+    const handleChangeMilestone = e => {
+        const {name, value} = e.target;
+        const [field, id, attribute] = name.split('.');
+        switch (attribute) {
+            case 'done':
+                setMilestones(milestones.map((milestone, idx) => {
+                    if(id == idx) milestone.done = !milestone.done
+                    return milestone
+                }))
+                return;
+                case 'title':
+                setMilestones(milestones.map((milestone, idx) => {
+                    if(id == idx) milestone.title = value
+                    return milestone
+                }))
+                return;
+            case 'delete':
+                setMilestones(milestones.filter((milestone, idx) => id != idx))
+                return;
+            default :
+            return;
+        }
+        
+    }
     return ( 
         <TaskFormComponent 
             onSubmit={submitForm}
@@ -136,77 +186,57 @@ const TaskForm = () => {
 
         <InputGroup>
             <Label>Priority :</Label>
-            <img 
-                alt=''
-                src={priority > 0 ? StarOn : StarOff}
-                onClick={() => setPriority(1)}    
-            />
-            <img 
-                alt=''
-                src={priority > 1 ? StarOn : StarOff}
-                onClick={() => setPriority(2)}    
-            />
-            <img 
-                alt=''
-                src={priority > 2 ? StarOn : StarOff}
-                onClick={() => setPriority(3)}    
-            />
-            <img 
-                alt=''
-                src={priority > 3 ? StarOn : StarOff}
-                onClick={() => setPriority(4)}    
-            />
-            <img 
-                alt=''
-                src={priority > 4 ? StarOn :StarOff}
-                    onClick={() => setPriority(5)}    
-                />
+            {
+                [0, 1, 2, 3, 4].map((id) => {
+                    return (<img 
+                        alt=''
+                        src={priority > id ? StarOn : StarOff}
+                        onClick={() => setPriority(id + 1)}    
+                    />
+                )})
+            }
         </InputGroup>
         <InputGroup>
             <Label>Milestones :</Label>
+            <div>
             <MilestoneGroup>
                 {milestones.map((milestone, index) => {
                     return (
-                        <div>
-                            <CheckField
-                                type='checkbox'
-                                defaultChecked={milestone.done}
-                                name={`milestone.${index}.done`}
+                        <div key={`milestone${index}`} style={{display:'flex'}}>
+                            <MileItem>
+                                <CheckField
+                                    type='checkbox'
+                                    defaultChecked={milestone.done ? 'on' : null}
+                                    value={milestone.done}
+                                    name={`milestone.${index}.done`}
+                                    onChange={handleChangeMilestone}
                                 />
+                            </MileItem>
+                            <MileItem>
                                 <InputField
-                                type='text'
-                                defaultValue={milestone.title}
-                                name={`milestone.${index}.title`}
-                            />
+                                    type='text'
+                                    value={milestone.title}
+                                    name={`milestone.${index}.title`}
+                                    onChange={handleChangeMilestone}
+                                />
+                            </MileItem>
+                            <MileItem>
+                                <img 
+                                    name={`milestone.${index}.delete`}
+                                    src={Delete}
+                                    alt='delete' 
+                                    onClick={handleChangeMilestone}
+                                />
+                            </MileItem>
                         </div>
                     )}
                 )}
-                <button onClick={(e) => {e.preventDefault(); setMilestones([...milestones, {title:'new milestone', done:false}])}}> + Add Milestone </button>
             </MilestoneGroup>
-        </InputGroup>
-
-        {/* <InputGroup>
-            <Label>Priority :</Label>
-            <SelectField 
-                name="priority"
-                defaultValue={defaultTask.priority}
-            >
-            <option value="normal">Normal</option>
-            <option value="high">High</option>
-            <option value="low">Low</option>
-            </SelectField>
-        </InputGroup> */}
-        {/* <InputGroup>
-            <Label>Status :</Label>
-            <SelectField 
-                name="status"
-                defaultValue={defaultTask.status}
-                >
-            <option value="inProgress">In Progress</option>
-            <option value="done">Done</option>
-            <option value="pending">Pending</option>
-            </SelectField>
-        </InputGroup> */}
+            <AddMileBtn
+                onClick={(e) => {e.preventDefault(); setMilestones([...milestones, {title:'new milestone', done:false}])}}
+            > + Add Milestone </AddMileBtn>
+            </div>
+            </InputGroup>
         <ButtonGroup>
             <Button onClick={closeModal}>
                 Cancel
@@ -215,7 +245,6 @@ const TaskForm = () => {
                 Reset
               </Button>
             <Button onClick={(e) => { e.preventDefault(); setShowConfirmation(true)} }> Submit </Button>
-            {/* <Button type='submit'> confirm </Button> */}
         </ButtonGroup>
         <ConfirmModal show={showConfirmation}>
             <h3> Are you sure you want to submit this? </h3>

@@ -21,8 +21,6 @@ const Task = ({task}) => {
         return acc;
     }, {totalMilestone: 0, completedMilestone: 0})
 
-    // console.log(totalMilestone, completedMilestone);
-
     if(task.status !== 'Done')
         task.status = task.milestones.length === 0 ? task.status : 
         totalMilestone === completedMilestone ? "Done" : "Pending"
@@ -45,6 +43,10 @@ const Task = ({task}) => {
 
         }
     }
+`
+const MileLabel = styled.span`
+    opacity: ${(props) => (props.strike ? 0.75 : 1)};
+    text-decoration: ${(props) => (props.strike ? 'line-through' : 'none')};
 `
 const Action = styled.div`
     position: absolute;
@@ -69,22 +71,15 @@ const Header = styled.div`
     display: flex;
     /* justify-content: space-between; */
     border-bottom: 2px solid;
-    .tags{
-        display: flex;
-        margin-top: 12px;
+    div{
+        margin: 0 8px;
     }
 `
 const Title = styled.div`
     font-size: xx-large;
     font-weight: 800;
 `
-// const Tag = styled.div`
-//     border: 1px solid;
-//     margin: 2px;
-//     padding: 0 8px;
-//     height: 24px;
-//     border-radius: 24px;
-// `
+
 
 const deleteTask = useTaskStore((state) => state.deleteTask);
 const updateTASK = useTaskStore((state) => state.updateTask);
@@ -121,7 +116,7 @@ const updateTask = useCreateOrUpdateTaskStore((state) => state.updateTask);
         {/* {task.milestones.length? <span><br/>Milestones</span> : null} */}
         {task.milestones.map((milestone, index) => {
             return (
-                <div>
+                <div key={index}>
                     <input 
                         type='checkbox' 
                         defaultChecked={milestone.done}
@@ -131,7 +126,7 @@ const updateTask = useCreateOrUpdateTaskStore((state) => state.updateTask);
 
                         }}
                     />
-                    <span>{milestone.title}</span>
+                    <MileLabel strike={milestone.done ? 1 : 0}>{milestone.title}</MileLabel>
                 </div>
             )
         })}

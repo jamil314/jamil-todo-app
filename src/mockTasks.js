@@ -1,8 +1,8 @@
-// import { uid } from 'uid';
+import { uid } from "uid";
 
 export const mockTasks = [
     {
-    "id": 0,
+    "id": uid(),
     "title": "Sample Task For Explaing The Features",
     "description": "This task consists of 10 subtasks or milestones. Marking each task as completed will advance the progress bar. If all 10 subtasks are marked as completed, the task will be marked as done. Once the task is marked as done, it will fade away. The task's priority is represented by the number of arms of the star that are colored.",
     "priority": 3,
@@ -23,7 +23,50 @@ export const mockTasks = [
       {title: 'Subtask 10'},
     ]
    }, {
-    "id": 1,
+    "id": uid(),
+    "title": "Homework: JavaScript Web App",
+    "description": "Project Title: Todo List Manager Project Description: Your task is to create a Todo List Manager web application using JavaScript that incorporates all the topics covered in your recent lessons. This application will allow users to add, edit, delete, and mark tasks as completed. Additionally, users will be able to filter tasks based on their status (completed or pending).",
+    "priority": 5,
+    "status": 3,
+    "createdAt": "10/20/2023",
+    "updatedAt": "5/31/2023",
+    "deadLine": "12/30/2023",
+    milestones: [
+      {
+        title: 'Design a clean and intuitive user interface for the Todo List Manager using HTML and CSS.',
+        done:'on'
+      }, {
+        title: 'Implement functionality to store tasks in the browsers local storage using the Local Storage API. Tasks should persist even after the browser is refreshed or closed.',
+        done:'on'
+      }, {
+        title: 'Implement functionality to add new tasks to the list.',
+        done:'on'
+      }, {
+        title: 'Implement functionality to edit existing tasks.',
+        done:'on'
+      }, {
+        title: 'Implement functionality to delete tasks.',
+        done:'on'
+      }, {
+        title: 'Implement functionality to mark tasks as completed or pending.',
+        done:'on'
+      }, {
+        title: 'Include options to filter tasks based on their status.',
+        done:'on'
+      }, {
+        title: 'Asynchronous Programming: Implement asynchronous operations for fetching and updating tasks using the Fetch API',
+       }, {
+        title: 'Implement error handling mechanisms for asynchronous operations using tryatch blocks and handling rejected promises',
+       }, {
+        title: 'Implement sorting functionality to arrange tasks based on priority, due date, etc.',
+       }, {
+        title: 'Add keyboard shortcuts for common actions (e.g., adding a new task, deleting a task).',
+       }, {
+        title: 'Include animations or transitions to enhance user experience.',
+       },
+    ]
+   }, {
+    "id": uid(),
     "title": "Ameliorated upward-trending workforce",
     "description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin risus. Praesent lectus.\n\nVestibulum quam sapien, varius ut, blandit non, interdum in, ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio. Curabitur convallis.\n\nDuis consequat dui nec nisi volutpat eleifend. Donec ut dolor. Morbi vel lectus in quam fringilla rhoncus.\n\nMauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero.\n\nNullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh.",
     "priority": 3,
@@ -32,12 +75,11 @@ export const mockTasks = [
     "updatedAt": "5/31/2023",
     "deadLine": "12/30/2023",
     milestones: [
-      {title: 'First Step', done:'on'},
-      {title: 'Almost there', done:'on'},
+      {title: 'First Step', done:'on'}, {title: 'Almost there', done:'on'},
       {title: 'Congratulations'},
     ]
   }, {
-    "id": 2,
+    "id": uid(),
     "title": "Triple-buffered optimizing flexibility",
     "description": "Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.\n\nCum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.\n\nEtiam vel augue. Vestibulum rutrum rutrum neque. Aenean auctor gravida sem.\n\nPraesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odio.\n\nCras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.",
     "priority": 3,
@@ -46,46 +88,46 @@ export const mockTasks = [
     "updatedAt": "6/14/2023",
     "deadLine": "3/17/2023",
     milestones:[],
-  }, {
-    "id": 3,
-    "title": "Horizontal bottom-line utilisation",
-    "description": "Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat.\n\nCurabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.\n\nInteger tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat.",
-    "priority": 1,
-    "status": 1,
-    "createdAt": "11/12/2023",
-    "updatedAt": "12/3/2023",
-    "deadLine": "9/22/2023",
-    milestones:[],
-  }, {
-    "id": 4,
-    "title": "Universal didactic framework",
-    "description": "Curabitur in libero ut massa volutpat convallis. Morbi odio odio, elementum eu, interdum eu, tincidunt in, leo. Maecenas pulvinar lobortis est.\n\nPhasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.\n\nProin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.\n\nDuis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.\n\nDonec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque.\n\nDuis bibendum. Morbi non quam nec dui luctus rutrum. Nulla tellus.",
-    "priority": 3,
-    "status": 1,
-    "createdAt": "12/13/2023",
-    "updatedAt": "9/29/2023",
-    "deadLine": "1/7/2024",
-    milestones:[],
-  }, {
-    "id": 5,
-    "title": "Polarised maximized function",
-    "description": "Vestibulum quam sapien, varius ut, blandit non, interdum in, ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio. Curabitur convallis.\n\nDuis consequat dui nec nisi volutpat eleifend. Donec ut dolor. Morbi vel lectus in quam fringilla rhoncus.\n\nMauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero.\n\nNullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh.\n\nIn quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.",
-    "priority": 4,
-    "status": 2,
-    "createdAt": "6/5/2023",
-    "updatedAt": "6/22/2023",
-    "deadLine": "1/26/2024",
-    milestones:[],
-  }, {
-    "id": 6,
-    "title": "Customizable 4th generation projection",
-    "description": "Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.\n\nPhasellus in felis. Donec semper sapien a libero. Nam dui.\n\nProin leo odio, porttitor id, consequat in, consequat ut, nulla. Sed accumsan felis. Ut at dolor quis odio consequat varius.\n\nInteger ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi.\n\nNam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus. Nulla suscipit ligula in lacus.\n\nCurabitur at ipsum ac tellus semper interdum. Mauris ullamcorper purus sit amet nulla. Quisque arcu libero, rutrum ac, lobortis vel, dapibus at, diam.",
-    "priority": 4,
-    "status": 1,
-    "createdAt": "12/11/2023",
-    "updatedAt": "8/31/2023",
-    "deadLine": "1/22/2024",
-    milestones:[],
+  // }, {
+  //   "id": uid(),
+  //   "title": "Horizontal bottom-line utilisation",
+  //   "description": "Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat.\n\nCurabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.\n\nInteger tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat.",
+  //   "priority": 1,
+  //   "status": 1,
+  //   "createdAt": "11/12/2023",
+  //   "updatedAt": "12/3/2023",
+  //   "deadLine": "9/22/2023",
+  //   milestones:[],
+  // }, {
+  //   "id": uid(),
+  //   "title": "Universal didactic framework",
+  //   "description": "Curabitur in libero ut massa volutpat convallis. Morbi odio odio, elementum eu, interdum eu, tincidunt in, leo. Maecenas pulvinar lobortis est.\n\nPhasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.\n\nProin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.\n\nDuis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.\n\nDonec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque.\n\nDuis bibendum. Morbi non quam nec dui luctus rutrum. Nulla tellus.",
+  //   "priority": 3,
+  //   "status": 1,
+  //   "createdAt": "12/13/2023",
+  //   "updatedAt": "9/29/2023",
+  //   "deadLine": "1/7/2024",
+  //   milestones:[],
+  // }, {
+  //   "id": uid(),
+  //   "title": "Polarised maximized function",
+  //   "description": "Vestibulum quam sapien, varius ut, blandit non, interdum in, ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio. Curabitur convallis.\n\nDuis consequat dui nec nisi volutpat eleifend. Donec ut dolor. Morbi vel lectus in quam fringilla rhoncus.\n\nMauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero.\n\nNullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh.\n\nIn quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.",
+  //   "priority": 4,
+  //   "status": 2,
+  //   "createdAt": "6/5/2023",
+  //   "updatedAt": "6/22/2023",
+  //   "deadLine": "1/26/2024",
+  //   milestones:[],
+  // }, {
+  //   "id": uid(),
+  //   "title": "Customizable 4th generation projection",
+  //   "description": "Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.\n\nPhasellus in felis. Donec semper sapien a libero. Nam dui.\n\nProin leo odio, porttitor id, consequat in, consequat ut, nulla. Sed accumsan felis. Ut at dolor quis odio consequat varius.\n\nInteger ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi.\n\nNam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus. Nulla suscipit ligula in lacus.\n\nCurabitur at ipsum ac tellus semper interdum. Mauris ullamcorper purus sit amet nulla. Quisque arcu libero, rutrum ac, lobortis vel, dapibus at, diam.",
+  //   "priority": 4,
+  //   "status": 1,
+  //   "createdAt": "12/11/2023",
+  //   "updatedAt": "8/31/2023",
+  //   "deadLine": "1/22/2024",
+  //   milestones:[],
   }, /*{
     "id": 7,
     "title": "Cloned fresh-thinking solution",
