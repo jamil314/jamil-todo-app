@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { useCreateOrUpdateTaskStore } from './StoreHandler'
 import Filter from './filter'
+import Sort from './sort'
 
 
 const DashboardContainer = styled.div`
@@ -28,6 +29,7 @@ const Dashboard = ({setshowModal}) => {
             + New Task
         </AddTaskButton>
         <Filter/>
+        <Sort/>
     </DashboardContainer>
   )
 }

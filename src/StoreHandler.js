@@ -2,14 +2,36 @@ import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 import { mockTasks } from './mockTasks'
 
+const calculateProgress = task => {
+  if(task.status==='Done') return 100;
+  const {total, completed} = task.milestones.reduce((acc, cur) => {
+    acc.total++;
+    if(cur.done) acc.completed++;
+    return acc;
+  }, {total: 0, completed: 0})
+  const progress = total ? (completed * 100 / total) : 0;
+  return progress;
+} 
+
 export const useFilterStore = create((set) => ({
   filters: [],
+  toFilter: true,
   clearFilters: () => set({filters: []}),
-  addFilter: (newFilter) => set((state) => ({ filters: [...state.filters, newFilter] })),
+  addFilter: (newFilter) => set((state) => ({...state, filters: [...state.filters, newFilter] })),
   deleteFilter: (field) => set((state) => 
-    ({ filters: state.filters.filter((Filter) => { return Filter.field !== field } )})),
+    ({...state, filters: state.filters.filter((Filter) => { return Filter.field !== field } )})),
   updateFilter: (newFilter) => set((state) => 
-    ({ filters: state.filters.map((Filter) => { return Filter.field === newFilter.field ? newFilter : Filter} )})),
+    ({...state, filters: state.filters.map((Filter) => { return Filter.field === newFilter.field ? newFilter : Filter} )})),
+  toggleFilter: () => set((state) => ({...state, toFilter: !state.toFilter}) ),
+}))
+
+export const useSortStore = create((set) => ({
+  catagory:[
+    {param:'Priority', value:0},
+    {param:'Progress', value:0},
+    {param:'Deadline', value:0},
+  ],
+  updateCatagory: (newCatagory) => set((state) => ({catagory: newCatagory})),
 }))
 
 // const filterService = {
@@ -21,14 +43,14 @@ export const useTaskStore = create(
   persist(
     (set, get) => ({
       tasks: mockTasks,
-      addTask: (newTask) => set(({ tasks: [...get().tasks, newTask] })),
+      addTask: (newTask) => set(({ tasks: [...get().tasks, {...newTask, progress:calculateProgress(newTask)}] })),
       deleteTask: (taskId) => set(
         ({ tasks: get().tasks.filter((task) => { return task.id !== taskId } )})),
       updateTask: (newTask) => set(
-        ({ tasks: get().tasks.map((task) => { return task.id === newTask.id ? newTask : task} )})),
+        ({ tasks: get().tasks.map((task) => { return task.id === newTask.id ? {...newTask, progress:calculateProgress(newTask)} : task} )})),
       getSortedFilteredTasks: () => {
         const rawTasks = get().tasks;
-        const filters = useFilterStore.getState().filters;
+        const filters = useFilterStore.getState().toFilter ? useFilterStore.getState().filters : rawTasks;
         const filteredTask = rawTasks.filter(task => {
           let ok = true;
           filters.forEach(({field, max, min}) => {
@@ -46,7 +68,20 @@ export const useTaskStore = create(
           })
           return ok;
         })
-        return filteredTask;
+        const sortCatagory = useSortStore.getState().catagory;
+        const sortedFilteredTask = filteredTask.sort((a, b) => {
+          let ret = 0;
+          sortCatagory.forEach(cat => {
+            if(cat.param !== 'Deadline' && ret === 0) {
+              const x = a[cat.param.toLowerCase()];
+              const y = b[cat.param.toLowerCase()];
+              if(cat.value > 0) ret =  (x === y ? 0 : x < y ? -1 : 1);
+              else if(cat.value < 0) ret =  (x === y ? 0 : x > y ? -1 : 1);
+            }
+          })
+          return ret;
+        }) 
+        return sortedFilteredTask;
       },
     }),
     {

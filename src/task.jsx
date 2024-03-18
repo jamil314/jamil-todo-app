@@ -110,7 +110,7 @@ const updateTask = useCreateOrUpdateTaskStore((state) => state.updateTask);
                     height={40}
                 />
             </div>
-            <CircularProgressBar total={totalMilestone || 1} completed={completedMilestone} />
+            <CircularProgressBar total={100} completed={task.progress} />
         </Header>
         <span>{task.description}</span>
         {/* {task.milestones.length? <span><br/>Milestones</span> : null} */}

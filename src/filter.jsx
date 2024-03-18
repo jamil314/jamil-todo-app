@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import filter from './assets/settings.png'
+import filterOff from './assets/filter-off.png'
 import downArrow from './assets/down-arrow.png'
 import rightArrow from './assets/right-arrow.png'
 import StarOn from './assets/star-on.png'
@@ -15,8 +16,11 @@ export const FilterContainer = styled.div`
 	padding: 4px;
 	border-radius: 4px;
 	background-color: var(--color-highlight);
+	color: white;
+	font-weight: 500;
+	opacity: ${(props) => (props.active ? 1 : 0.5)};
 	img{
-		height: 20px;
+		height: 40px;
 	}
 `
 export const FilterHeader = styled.div`
@@ -25,10 +29,14 @@ export const FilterHeader = styled.div`
 	justify-content: space-between;
 	font-weight: 600;
 	letter-spacing: 1px;
+	span{
+		padding: 4px;
+	}
 `
 export const FilterIcon = styled.div`
 	display: flex;
 	border-right: solid 2px black;
+	height: 40px;
 	padding-right: 4px;
 	margin-right: 12px;
 `
@@ -41,7 +49,12 @@ export const FilterItem = styled.div`
 	padding: 4px;
 	display: flex;
 	opacity: ${(props) => (props.active ? 1 : 0.8)};
-
+	pointer-events: ${(props) => (props.clickable ? 'all' : 'none')};
+	/* cursor: 'not-allowed'; */
+	/* cursor: ${(props) => (props.clickable ? 'default' : 'notAllowed')}; */
+	img{
+		height: 20px;
+	}
 	
 `
 export const FilterItemLabel = styled.div`
@@ -89,9 +102,11 @@ const Filter = () => {
 		}
 	}
 
-	// const clearFilters = useFilterStore(state => state.clearFilters);
-	const addFilter = useFilterStore(state => state.addFilter);
 	const deleteFilter = useFilterStore(state => state.deleteFilter);
+	const toggleFilter = useFilterStore(state => state.toggleFilter);
+	const addFilter = useFilterStore(state => state.addFilter);
+	const toFilter = useFilterStore(state => state.toFilter);
+	// const {addFilter, deleteFilter, toFilter, toggleFilter} = useFilterStore(state => state.addFilter);
 
 	useEffect(() => {
 		deleteFilter('priority');
@@ -101,12 +116,13 @@ const Filter = () => {
 		deleteFilter('progress');
 		if((lProgress > 0 || rProgress < 100)) addFilter({field: 'progress', max: rProgress, min: lProgress})
 	}, [progress]);
+
   return (
-    <FilterContainer>
+    <FilterContainer active={toFilter}>
         <FilterHeader>
-						<FilterIcon>
-            	<img src={filter} alt='filter'/>
-						</FilterIcon>
+			<FilterIcon onClick={toggleFilter}>
+            	<img src={toFilter? filter:filterOff} alt='filter'/>
+			</FilterIcon>
             <span>Filter {applied ? `(${applied})` : ''}</span>
             <img 
 				src={expanded ? downArrow : rightArrow}
@@ -115,7 +131,7 @@ const Filter = () => {
 			/>
         </FilterHeader>
 				{ expanded && <FilterBody>
-					<FilterItem active={priorityFilterActive}>
+					<FilterItem active={priorityFilterActive} clickable={toFilter}>
 						<FilterItemLabel>
 							{priorityFilterActive ? <img
 								src={Reset}
@@ -135,9 +151,9 @@ const Filter = () => {
                     />
                 )})
             }
-						</FilterItemValues>
+				</FilterItemValues>
 					</FilterItem>
-					<FilterItem>
+					<FilterItem active={progressFilterActive} clickable={toFilter}>
 						<FilterItemLabel>
 							{progressFilterActive ? <img
 								src={Reset}
