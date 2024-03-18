@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from 'styled-components'
 import Task from "./task"
 import Dashboard from './dashboard';
-import { useFilterStore, useSortStore, useTaskStore } from "./StoreHandler";
+import { useFilterStore, useSortStore, useTaskStore, useCreateOrUpdateTaskStore} from "./StoreHandler";
 import TaskModal from "./taskModal";
 
 const RootContainer = styled.div`
@@ -25,9 +25,19 @@ const TaskList = styled.ul`
 const App = () => {  
   const getTasks = useTaskStore((state) => state.getSortedFilteredTasks);
   const updateTask = useTaskStore((state) => state.updateTask);
+  const openCreateTaskPortal = useCreateOrUpdateTaskStore(state => state.createTask);
 
   const [tasks, setTasks] = useState(getTasks())
   useEffect(() => {
+
+    const handleKeyDown = (event) => {
+      if (event.ctrlKey && event.key === 'n') {
+        event.preventDefault();
+        openCreateTaskPortal();
+      }
+    };
+    document.addEventListener('keydown', handleKeyDown);
+
     //seed correctly
     const updateTaskPromises = tasks.map(task => {
       return updateTask(task);
@@ -60,6 +70,7 @@ const App = () => {
       unsubscribeTasks();
       unsubscribeFilter();
       unsubscribeSort();
+      document.removeEventListener('keydown', handleKeyDown);
     };  }, [])
   return (
     <RootContainer>

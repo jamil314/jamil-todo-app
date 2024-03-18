@@ -12,3 +12,12 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+.clickable:hover{
+  cursor: pointer;    
+}
+.nonclickable:hover{
+  cursor: not-allowed;
+}
+input[type="checkbox" i]:hover{
+  cursor: pointer;    
+}

@@ -55,6 +55,7 @@ const Sort = () => {
           src={expanded ? downArrow : rightArrow}
           alt='collapse'
           onClick={() => setExpanded(!expanded)}
+          className='clickable'
         />
       </FilterHeader>
     {expanded && <FilterBody>
@@ -71,14 +72,14 @@ const Sort = () => {
 
         {catagory.map((cat, id) => {
           return (<SortItem key={id} active={cat.value !== 0}>
-            <img src={arrows} alt='' onClick={() => moveUp(id)}/>
+            <img src={arrows} alt='' onClick={() => moveUp(id)} className={id ? 'clickable' : 'nonclickable'}/>
             <FilterItemLabel>
               <span> {cat.param} </span>
             </FilterItemLabel>
             <FilterItemValues>
-              <input type='radio' checked={cat.value === 1} onClick={() => setValue(cat.param, 1)}/>
-              <input type='radio' checked={cat.value === -1} onClick={() => setValue(cat.param, -1)}/>
-              <input type='radio' checked={cat.value === 0} onClick={() => setValue(cat.param, 0)}/>
+              <input type='radio' className='clickable' checked={cat.value === 1} onClick={() => setValue(cat.param, 1)}/>
+              <input type='radio' className='clickable' checked={cat.value === -1} onClick={() => setValue(cat.param, -1)}/>
+              <input type='radio' className='clickable' checked={cat.value === 0} onClick={() => setValue(cat.param, 0)}/>
             </FilterItemValues>
           </SortItem>)
         })}

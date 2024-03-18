@@ -120,11 +120,12 @@ const Filter = () => {
   return (
     <FilterContainer active={toFilter}>
         <FilterHeader>
-			<FilterIcon onClick={toggleFilter}>
+			<FilterIcon onClick={toggleFilter} className='clickable'>
             	<img src={toFilter? filter:filterOff} alt='filter'/>
 			</FilterIcon>
             <span>Filter {applied ? `(${applied})` : ''}</span>
             <img 
+				className='clickable'
 				src={expanded ? downArrow : rightArrow}
 				alt='collapse'
 				onClick={() => setExpanded(!expanded)}
@@ -137,6 +138,7 @@ const Filter = () => {
 								src={Reset}
 								alt='reset-filter'
 								onClick={() => setPriority([1, 5])}
+								className='clickable'
 							/> : null}
 							<span>Priority :</span>
 						</FilterItemLabel>
@@ -147,7 +149,8 @@ const Filter = () => {
                         alt=''
                         src={priority[0] <= id && priority[1] >= id ? StarOn : StarOff}
                         onClick={(e) => updatePriority(e, id)}
-						key={id}    
+						key={id}
+						className='clickable'
                     />
                 )})
             }
@@ -159,6 +162,7 @@ const Filter = () => {
 								src={Reset}
 								alt='reset-filter'
 								onClick={() => setProgress([0, 100])}
+								className='clickable'
 							/> : null}
 							<span>Progress :</span>
 						</FilterItemLabel>

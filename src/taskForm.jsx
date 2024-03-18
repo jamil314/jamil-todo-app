@@ -59,6 +59,7 @@ const Button = styled.button`
     width: ${(props) => (props.wide ? '120px' : '80px')};
     color: black;
     font-size: large;
+    cursor: pointer;
 `
 const MileItem = styled.div`
     height: 24px;
