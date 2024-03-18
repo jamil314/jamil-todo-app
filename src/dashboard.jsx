@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { useCreateOrUpdateTaskStore } from './StoreHandler'
 import Filter from './filter'
 import Sort from './sort'
+import SearchTask from './search'
 
 
 const DashboardContainer = styled.div`
@@ -22,7 +23,7 @@ export const AddTaskButton = styled.button`
     }
 `
 
-const Dashboard = ({setshowModal}) => {
+const Dashboard = () => {
   return (
     <DashboardContainer>
         <AddTaskButton onClick={useCreateOrUpdateTaskStore(state => state.createTask)}>
@@ -30,6 +31,7 @@ const Dashboard = ({setshowModal}) => {
         </AddTaskButton>
         <Filter/>
         <Sort/>
+        <SearchTask/>
     </DashboardContainer>
   )
 }

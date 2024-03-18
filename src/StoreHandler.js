@@ -34,10 +34,10 @@ export const useSortStore = create((set) => ({
   updateCatagory: (newCatagory) => set((state) => ({catagory: newCatagory})),
 }))
 
-// const filterService = {
-//   getFilters: () => useFilterStore.getState().filters,
-//   setFilters: (filters) => useFilterStore.getState().setFilters(filters),
-// };
+export const useSearchStore = create((set) => ({
+  param: '',
+  setSearchParam: (newParam) => set(() => ({param: newParam}))
+}))
 
 export const useTaskStore = create(
   persist(
@@ -50,8 +50,21 @@ export const useTaskStore = create(
         ({ tasks: get().tasks.map((task) => { return task.id === newTask.id ? {...newTask, progress:calculateProgress(newTask)} : task} )})),
       getSortedFilteredTasks: () => {
         const rawTasks = get().tasks;
-        const filters = useFilterStore.getState().toFilter ? useFilterStore.getState().filters : rawTasks;
-        const filteredTask = rawTasks.filter(task => {
+        const searchParam = useSearchStore.getState().param;
+        const searchedTask = rawTasks.filter(task => {
+          if(task.title.toLowerCase().includes(searchParam.toLowerCase()) ||
+          task.description.toLowerCase().includes(searchParam.toLowerCase()) ) return true;
+          let matched = false;
+          task.milestones.forEach(mile => {
+            if(!matched)
+              if(mile.title.toLowerCase().includes(searchParam.toLowerCase())) {
+                matched = true;
+              }
+          })
+          return matched
+        })
+        const filters = useFilterStore.getState().toFilter ? useFilterStore.getState().filters : [];
+        const filteredTask = searchedTask.filter(task => {
           let ok = true;
           filters.forEach(({field, max, min}) => {
               if(field === 'priority'){

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from 'styled-components'
 import Task from "./task"
 import Dashboard from './dashboard';
-import { useFilterStore, useSortStore, useTaskStore, useCreateOrUpdateTaskStore} from "./StoreHandler";
+import { useFilterStore, useSortStore, useTaskStore, useCreateOrUpdateTaskStore, useSearchStore} from "./StoreHandler";
 import TaskModal from "./taskModal";
 
 const RootContainer = styled.div`
@@ -31,9 +31,15 @@ const App = () => {
   useEffect(() => {
 
     const handleKeyDown = (event) => {
-      if (event.ctrlKey && event.key === 'n') {
+      if(event.altKey) {
         event.preventDefault();
-        openCreateTaskPortal();
+        switch (event.key) {
+          case 'n':
+            openCreateTaskPortal();
+            break;
+          default:
+            break;
+        }
       }
     };
     document.addEventListener('keydown', handleKeyDown);
@@ -59,6 +65,10 @@ const App = () => {
       (filter) => {setTasks(getTasks())},
       (state) => [state.filters, state.toFilter]
     );
+    const unsubscribeSearch = useSearchStore.subscribe(
+      (Search) => {setTasks(getTasks())},
+      (state) => [state.param]
+    );
     const unsubscribeSort = useSortStore.subscribe(
       (cata) => {
         setTasks(getTasks())
@@ -70,6 +80,7 @@ const App = () => {
       unsubscribeTasks();
       unsubscribeFilter();
       unsubscribeSort();
+      unsubscribeSearch();
       document.removeEventListener('keydown', handleKeyDown);
     };  }, [])
   return (
