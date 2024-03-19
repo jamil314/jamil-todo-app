@@ -20,7 +20,7 @@ const App = () => {
   useEffect(() => {
 
     const handleKeyDown = (event) => {
-      if(event.altKey) {
+      if(event.altKey || event.metaKey) {
         event.preventDefault();
         switch (event.key) {
           case 'n':
