@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import styled from "styled-components";
+import { useCreateOrUpdateTaskStore, useTaskStore } from './StoreHandler';
+import ConfirmationModal from './confirmationModal';
 import Done from './assets/done.png'
 import Delete from './assets/delete.png'
 import Edit from './assets/edit.png'
-import { useCreateOrUpdateTaskStore, useTaskStore } from './StoreHandler';
-import ConfirmationModal from './confirmationModal';
 import StarOff from './assets/star-off.png'
 import oneStar from './assets/star-1.png'
 import twoStar from './assets/star-2.png'

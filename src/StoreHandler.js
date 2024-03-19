@@ -39,6 +39,56 @@ export const useSearchStore = create((set) => ({
   setSearchParam: (newParam) => set(() => ({param: newParam}))
 }))
 
+const applySearch = (raw, searchParam) => {
+  return raw.filter(task => {
+    if(task.title.toLowerCase().includes(searchParam.toLowerCase()) ||
+    task.description.toLowerCase().includes(searchParam.toLowerCase()) ) return true;
+    let matched = false;
+    task.milestones.forEach(mile => {
+      if(!matched)
+        if(mile.title.toLowerCase().includes(searchParam.toLowerCase())) {
+          matched = true;
+        }
+    })
+    return matched
+  })
+}
+
+const applyFilter = (raw, filters) => {
+  return raw.filter(task => {
+    let ok = true;
+    filters.forEach(({field, max, min}) => {
+        if(field === 'priority'){
+          if(task[field] > max || task[field] < min) ok = false;
+        } else if(field === 'progress') {
+            const {total, completed} = task.milestones.reduce((acc, cur) => {
+              acc.total++;
+              if(cur.done) acc.completed++;
+              return acc;
+            }, {total: 0, completed: 0})
+            const progress = total ? (completed * 100 / total) : 0;
+            if(progress > max || progress < min) ok = false;
+        }
+    })
+    return ok;
+  })
+}
+
+const applysort = (raw, sortCatagory) => {
+  return raw.sort((a, b) => {
+    let ret = 0;
+    sortCatagory.forEach(cat => {
+      if(cat.param !== 'Deadline' && ret === 0) {
+        const x = a[cat.param.toLowerCase()];
+        const y = b[cat.param.toLowerCase()];
+        if(cat.value > 0) ret =  (x === y ? 0 : x < y ? -1 : 1);
+        else if(cat.value < 0) ret =  (x === y ? 0 : x > y ? -1 : 1);
+      }
+    })
+    return ret;
+  })
+}
+
 export const useTaskStore = create(
   persist(
     (set, get) => ({
@@ -49,57 +99,15 @@ export const useTaskStore = create(
       updateTask: (newTask) => set(
         ({ tasks: get().tasks.map((task) => { return task.id === newTask.id ? {...newTask, progress:calculateProgress(newTask)} : task} )})),
       getSortedFilteredTasks: () => {
-        const rawTasks = get().tasks;
-        const searchParam = useSearchStore.getState().param;
-        const searchedTask = rawTasks.filter(task => {
-          if(task.title.toLowerCase().includes(searchParam.toLowerCase()) ||
-          task.description.toLowerCase().includes(searchParam.toLowerCase()) ) return true;
-          let matched = false;
-          task.milestones.forEach(mile => {
-            if(!matched)
-              if(mile.title.toLowerCase().includes(searchParam.toLowerCase())) {
-                matched = true;
-              }
-          })
-          return matched
-        })
-        const filters = useFilterStore.getState().toFilter ? useFilterStore.getState().filters : [];
-        const filteredTask = searchedTask.filter(task => {
-          let ok = true;
-          filters.forEach(({field, max, min}) => {
-              if(field === 'priority'){
-                if(task[field] > max || task[field] < min) ok = false;
-              } else if(field === 'progress') {
-                  const {total, completed} = task.milestones.reduce((acc, cur) => {
-                    acc.total++;
-                    if(cur.done) acc.completed++;
-                    return acc;
-                  }, {total: 0, completed: 0})
-                  const progress = total ? (completed * 100 / total) : 0;
-                  if(progress > max || progress < min) ok = false;
-              }
-          })
-          return ok;
-        })
-        const sortCatagory = useSortStore.getState().catagory;
-        const sortedFilteredTask = filteredTask.sort((a, b) => {
-          let ret = 0;
-          sortCatagory.forEach(cat => {
-            if(cat.param !== 'Deadline' && ret === 0) {
-              const x = a[cat.param.toLowerCase()];
-              const y = b[cat.param.toLowerCase()];
-              if(cat.value > 0) ret =  (x === y ? 0 : x < y ? -1 : 1);
-              else if(cat.value < 0) ret =  (x === y ? 0 : x > y ? -1 : 1);
-            }
-          })
-          return ret;
-        }) 
-        return sortedFilteredTask;
+        return applysort( applyFilter( applySearch( get().tasks
+                                      , useSearchStore.getState().param )
+                          , useFilterStore.getState().toFilter ? useFilterStore.getState().filters : [] )
+                , useSortStore.getState().catagory )
       },
     }),
     {
-      name: 'task-storage', // name of the item in the storage (must be unique)
-      storage: createJSONStorage(() => sessionStorage), // (optional) by default, 'localStorage' is used
+      name: 'task-storage',
+      storage: createJSONStorage(() => sessionStorage),
     },
   ),
 )
