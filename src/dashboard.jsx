@@ -7,7 +7,7 @@ import SearchTask from './search'
 
 
 const DashboardContainer = styled.div`
-    width: 300px;
+    width: 360px;
     height: 100vh;
     background: var(--color-secondary);
 `

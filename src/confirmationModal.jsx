@@ -35,8 +35,15 @@ const ConfirmationModal = ({showConfirmation, onConfirm, onAbort, alertText}) =>
             <ConfirmModal>
               <h3> {alertText} </h3>
               <ButtonGroup>
-                  <Button wide onClick={onAbort}>
-                      Go Back </Button>
+                  <Button
+                    wide 
+                    onClick={onAbort}
+                    style={{
+                      "borderRight":"solid black 2px",
+                    }}
+                  >
+                      Go Back
+                    </Button>
                   <Button onClick={onConfirm}>Confirm</Button>
               </ButtonGroup>
             </ConfirmModal>

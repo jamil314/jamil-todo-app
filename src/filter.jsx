@@ -16,7 +16,7 @@ export const FilterContainer = styled.div`
 	padding: 4px;
 	border-radius: 4px;
 	background-color: var(--color-highlight);
-	color: white;
+	color: var(--color-text-2);
 	font-weight: 500;
 	opacity: ${(props) => (props.active ? 1 : 0.5)};
 	img{
@@ -71,7 +71,7 @@ export const FilterItemValues = styled.div`
 	justify-content: space-between;
 `
 const FilterInput = styled.input`
-	width: 44px;
+	width: 60px;
 	font-size: large;
 	/* height: 24px; */
 `

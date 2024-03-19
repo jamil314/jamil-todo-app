@@ -1,15 +1,19 @@
 :root{
-  --color-primary: #050A30;
-  --color-secondary: #232642;
+  --color-primary: #222222;
+  --color-secondary: #eeeeee;
   /* --color-secondary: #333652; */
-  --color-text: #90ADC6;
-  --color-highlight: #333652;
+  --color-text: black;
+  --color-highlight: white;
   --color-bg: #535C91;
   --color-light: #9290C3;
+  --color-text-2: black
 }
 body {
   margin: 0;
   padding: 0;
+  letter-spacing: 0.075rem;
+  line-height: 1.4rem;
+  font-weight: 500;
   font-family: sans-serif;
 }
 .clickable:hover{

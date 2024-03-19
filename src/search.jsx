@@ -24,9 +24,9 @@ const SearchContainer = styled.div`
 const SearchInput = styled.input`
   width: 100%;
   margin-right: 4px;
-  background-color: var(--color-primary);
+  background-color: var(--color-highlight);
   border-radius: 4px;
-  color: white;
+  color: var(--color-text-2);
 `
 
 const SearchTask = () => {

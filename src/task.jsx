@@ -28,18 +28,20 @@ const Task = ({task}) => {
     const TaskCard = styled.li`
     list-style: none;
     opacity: ${task.status==="Done" ? 0.5 : 1};
-    background-color: var(--color-secondary);
-    padding: 12px;
+    background-color: var(--color-highlight);
+    padding: 2rem 4rem;
     margin: 10px;
-    border-radius: 12px;
+    border-radius: 0.75rem;
     position: relative;
-    transition: all 0.5s;
+    transition: all 0.3s;
+    overflow: hidden;
     &:hover {
-        transform: translateX(20px);
-        background-color: var(--color-highlight);
+        transform: scale(1.015);
+        border-radius: 0.5rem;
+        /* background-color: var(--color-highlight); */
         .action {
             opacity: 1;
-            transform: translateY(0);
+            transform: scale(1);
 
         }
     }
@@ -50,18 +52,18 @@ const MileLabel = styled.span`
 `
 const Action = styled.div`
     position: absolute;
-    top: 0px;
-    right: 10px;
+    top: 1rem;
+    right: 1rem;
     border-radius: 20px;
     opacity: 0;
     transition: opacity 0.3s, transform 0.3s;
     transform: translateY(-100%);
 `
 const ActionButton = styled.img`
-    height: 20px;
-    width: 20px;
-    margin: 2px;
-    border-radius: 20px;
+    height: 40px;
+    width: 40px;
+    margin: 4px;
+    border-radius: 40px;
     &:hover {
         cursor: pointer;
         
@@ -71,12 +73,13 @@ const Header = styled.div`
     display: flex;
     /* justify-content: space-between; */
     border-bottom: 2px solid;
+    margin-bottom: 1rem;
     div{
         margin: 0 8px;
     }
 `
 const Title = styled.div`
-    font-size: xx-large;
+    font-size: x-large;
     font-weight: 800;
 `
 
@@ -109,29 +112,32 @@ const updateTask = useCreateOrUpdateTaskStore((state) => state.updateTask);
                     src={[StarOff, oneStar, twoStar, threeStar, fourStar, fiveStar][task.priority]}
                     height={40}
                 />
+                <CircularProgressBar total={100} completed={task.progress} />
             </div>
-            <CircularProgressBar total={100} completed={task.progress} />
         </Header>
         <span>{task.description}</span>
-        {/* {task.milestones.length? <span><br/>Milestones</span> : null} */}
-        {task.milestones.map((milestone, index) => {
-            return (
-                <div 
+        <div>
+            {task.milestones.length? <div style={{height:'1rem'}}/> : null}
+            {task.milestones.map((milestone, index) => {
+                return (
+                    <div 
                     key={index}
                     onClick={() => {
                         task.milestones[index].done = !milestone.done;
                         updateTASK(task)
                     }}
                     className='clickable'
-                >
-                    <input 
-                        type='checkbox' 
-                        defaultChecked={milestone.done}
-                    />
-                    <MileLabel strike={milestone.done ? 1 : 0}>{milestone.title}</MileLabel>
-                </div>
-            )
-        })}
+                    >
+                        <input 
+                            type='checkbox' 
+                            defaultChecked={milestone.done}
+                            style={{marginRight:'1rem'}}
+                        />
+                        <MileLabel strike={milestone.done ? 1 : 0}>{milestone.title}</MileLabel>
+                    </div>
+                )
+            })}
+        </div>
     </TaskCard>
   )
 }

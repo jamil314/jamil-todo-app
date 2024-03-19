@@ -6,11 +6,12 @@ import { useFilterStore, useSortStore, useTaskStore, useSearchStore} from "./Sto
 
 const TasksContainer = styled.ul`
   margin: 0;
-  padding: 0;
-  padding-right: 20px;
-  width: 90vw;
+  /* margin-left: 10rem; */
+  padding: 0 20%;
+  width: 100%;
   align-items: center;
   overflow-y: scroll;
+  /* padding-bottom: 2000px; */
 `
 
 

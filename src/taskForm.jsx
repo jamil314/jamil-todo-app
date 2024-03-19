@@ -20,7 +20,13 @@ const TaskFormComponent = styled.form`
 `
 const InputField = styled.input`
     font-size: large;
-    width: 500px
+    width: 500px;
+    border-radius: 8px;
+    padding: 8px 12px;
+    border: 0;
+    &:focus{
+        border: 8px sold black
+    }
 `
 /* const SelectField = styled.select`
     font-size: large;
@@ -28,12 +34,14 @@ const InputField = styled.input`
 const InputGroup = styled.div`
     padding: 4px 0;
     display: flex;
+    align-items: center;
+    margin: 4px;
     img{
         height: 20px;
     }
 `
 const Label = styled.div`
-    /* text-align: end; */
+    text-align: end;
     width: 140px;
 `
 
@@ -47,22 +55,23 @@ const MilestoneGroup = styled.div`
 const ButtonGroup = styled.div`
     margin-top: 24px;
     padding-top: 12px;
-    border-top: solid aliceblue 2px;
+    border-top: solid black 2px;
     display: flex;
     width: 100%;
     justify-content: space-around;
 `
 const Button = styled.button`
-    border: solid aliceblue 2px;
-    background-color: aliceblue;
+    border: none;
+    /* background-color: aliceblue; */
     height: 40px;
-    width: ${(props) => (props.wide ? '120px' : '80px')};
+    width: 100%;
+    /* width: ${(props) => (props.wide ? '120px' : '80px')}; */
     color: black;
     font-size: large;
     cursor: pointer;
 `
 const MileItem = styled.div`
-    height: 24px;
+    /* height: 24px; */
     margin: 6px 4px;
     margin-right: 0;
     display: flex;
@@ -71,10 +80,13 @@ const MileItem = styled.div`
 `
 const AddMileBtn = styled.button`
     width: 100%;
+    height: 3rem;
     min-width: 250px;
     margin-top: 12px;
     padding: 4px 0;
     border-radius: 20px;
+    font-size: large;
+    font-weight: 700;
     transition: all 0.3s;
     &:hover{
         cursor: pointer;
@@ -246,7 +258,13 @@ const TaskForm = () => {
             <Button onClick={closeModal}>
                 Cancel
             </Button>
-              <Button onClick={(e) => { e.preventDefault(); setShowResetConfirmation(true)} }>
+              <Button 
+                onClick={(e) => { e.preventDefault(); setShowResetConfirmation(true)}}
+                style={{
+                    "borderLeft":"solid black 2px",
+                    "borderRight":"solid black 2px",
+                }}
+            >
                 Reset
               </Button>
             <Button onClick={(e) => { e.preventDefault(); setShowConfirmation(true)} }> Submit </Button>
