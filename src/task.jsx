@@ -116,15 +116,17 @@ const updateTask = useCreateOrUpdateTaskStore((state) => state.updateTask);
         {/* {task.milestones.length? <span><br/>Milestones</span> : null} */}
         {task.milestones.map((milestone, index) => {
             return (
-                <div key={index}>
+                <div 
+                    key={index}
+                    onClick={() => {
+                        task.milestones[index].done = !milestone.done;
+                        updateTASK(task)
+                    }}
+                    className='clickable'
+                >
                     <input 
                         type='checkbox' 
                         defaultChecked={milestone.done}
-                        onClick={() => {
-                            task.milestones[index].done = !milestone.done;
-                            updateTASK(task)
-
-                        }}
                     />
                     <MileLabel strike={milestone.done ? 1 : 0}>{milestone.title}</MileLabel>
                 </div>
