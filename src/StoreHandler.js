@@ -78,11 +78,26 @@ const applysort = (raw, sortCatagory) => {
   return raw.sort((a, b) => {
     let ret = 0;
     sortCatagory.forEach(cat => {
-      if(cat.param !== 'Deadline' && ret === 0) {
-        const x = a[cat.param.toLowerCase()];
-        const y = b[cat.param.toLowerCase()];
-        if(cat.value > 0) ret =  (x === y ? 0 : x < y ? -1 : 1);
-        else if(cat.value < 0) ret =  (x === y ? 0 : x > y ? -1 : 1);
+      if(ret === 0) {
+        if(cat.param !== 'Deadline') {
+          const x = a[cat.param.toLowerCase()];
+          const y = b[cat.param.toLowerCase()];
+          if(cat.value > 0) ret =  (x === y ? 0 : x < y ? -1 : 1);
+          else if(cat.value < 0) ret =  (x === y ? 0 : x > y ? -1 : 1);
+        } else {
+          if(a['deadline-active'] && b['deadline-active']) {
+            const ta = new Date(a['deadline-date']).getTime();
+            const tb = new Date(b['deadline-date']).getTime();
+            if(cat.value > 0) ret = ta - tb;
+            else if(cat.value < 0) ret = tb - ta; 
+          } else if(a['deadline-active']) {
+            if(cat.value > 0) ret = -1; 
+            else if(cat.value < 0) ret = 1;
+          } else if(b['deadline-active']) {
+            if(cat.value > 0) ret = 1;
+            else if(cat.value < 0) ret = -1; 
+          }
+        }
       }
     })
     return ret;

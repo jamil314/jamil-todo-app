@@ -28,6 +28,16 @@ const InputField = styled.input`
         border: 8px sold black
     }
 `
+const TimeDateField = styled(InputField)`
+    width: 200px;
+    margin-right: 2rem;
+`
+const Message = styled.div`
+    font-size: large;
+    /* width: 500px; */
+    border-radius: 8px;
+    padding: 8px 12px;
+`
 /* const SelectField = styled.select`
     font-size: large;
 ` */
@@ -46,7 +56,7 @@ const Label = styled.div`
 `
 
 const MilestoneGroup = styled.div`
-    max-height: 50vh;
+    max-height: 40vh;
     overflow-y: scroll;
     padding-right: 8px;
     scrollbar-width: thin;
@@ -116,6 +126,7 @@ const TaskForm = () => {
     const [showResetConfirmation, setShowResetConfirmation] = useState(false);
     const [milestones, setMilestones] = useState([]);
     const [priority, setPriority] = useState(0);
+    const [deadlineActive, setDeadlineActive] = useState(false);
     
     const addTask = useTaskStore((state) => state.addTask);
     const updateTask = useTaskStore((state) => state.updateTask);
@@ -175,6 +186,11 @@ const TaskForm = () => {
         }
         
     }
+
+    // const currentDateTime = Date.now();
+    // console.log(currentDateTime);
+    // console.log(new Date());
+
     return ( 
         <TaskFormComponent 
             onSubmit={submitForm}
@@ -213,6 +229,34 @@ const TaskForm = () => {
                 )})
             }
         </InputGroup>
+
+        <InputGroup>
+            <Label>
+                <CheckField
+                    type='checkbox'
+                    name='deadline-active'
+                    onChange={() => setDeadlineActive(!deadlineActive)}
+                />
+                Deadline :
+            </Label>
+            {deadlineActive ?
+                <div>
+                    <TimeDateField
+                        type='date'
+                        defaultValue={new Date().toISOString().slice(0, 10)}
+                        name='deadline-date'
+                    /> 
+                    {/* <TimeDateField
+                        type='time'
+                        defaultValue={new Date().toISOString().slice(11, 19)}
+                        name='deadline-date'
+                    />  */}
+                </div> 
+                : 
+                <Message>No Pressure</Message>            
+            }
+        </InputGroup>
+
         <InputGroup>
             <Label>Milestones :</Label>
             <div>

@@ -11,6 +11,7 @@ import { useFilterStore } from './StoreHandler'
 
 export const FilterContainer = styled.div`
 	width: calc(100% - 32px);
+	/* width: 100%; */
 	margin: 12px;
 	margin-top: 0;
 	padding: 4px;
@@ -24,6 +25,7 @@ export const FilterContainer = styled.div`
 	}
 `
 export const FilterHeader = styled.div`
+	width: 100%;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;

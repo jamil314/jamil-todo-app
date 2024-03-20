@@ -4,14 +4,18 @@ import Task from "./task"
 import { useFilterStore, useSortStore, useTaskStore, useSearchStore} from "./StoreHandler";
 
 
-const TasksContainer = styled.ul`
-  margin: 0;
-  /* margin-left: 10rem; */
-  padding: 0 20%;
-  width: 100%;
+const TasksContainer = styled.div`
+  /* margin: 0;
+  padding: 0; */
+  width:calc(100vw - 300px);
+  display: flex;
+  flex-direction: column;
   align-items: center;
   overflow-y: scroll;
-  /* padding-bottom: 2000px; */
+`
+
+const TaskColumn = styled.ul`
+padding: 0;
 `
 
 
@@ -63,7 +67,9 @@ const TaskList = () => {
 
   return (
       <TasksContainer>
-        {tasks.map(task => {return <Task task={task} key={task.id}/>})} 
+        <TaskColumn>
+          {tasks.map(task => {return <Task task={task} key={task.id}/>})} 
+        </TaskColumn>
       </TasksContainer>
   )
 }

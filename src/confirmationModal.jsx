@@ -12,16 +12,20 @@ const ConfirmModal = styled.div`
 const ButtonGroup = styled.div`
     margin-top: 24px;
     padding-top: 12px;
-    border-top: solid aliceblue 2px;
+    border-top: solid black 2px;
     display: flex;
     width: 100%;
     justify-content: space-around;
+    :first-child{
+      border-right: solid black 2px;
+    }
 `
 const Button = styled.button`
-    border: solid aliceblue 2px;
-    background-color: aliceblue;
+    border: 0;
+    /* background-color: aliceblue; */
     height: 40px;
-    width: ${(props) => (props.wide ? '120px' : '80px')};
+    width: 100%;
+    /* width: ${(props) => (props.wide ? '120px' : '80px')}; */
     color: black;
     font-size: large;
 `
@@ -42,7 +46,7 @@ const ConfirmationModal = ({showConfirmation, onConfirm, onAbort, alertText}) =>
                       "borderRight":"solid black 2px",
                     }}
                   >
-                      Go Back
+                      Cancel
                     </Button>
                   <Button onClick={onConfirm}>Confirm</Button>
               </ButtonGroup>

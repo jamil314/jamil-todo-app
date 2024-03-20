@@ -10,6 +10,8 @@ const DashboardContainer = styled.div`
     width: 360px;
     height: 100vh;
     background: var(--color-secondary);
+    display: flex;
+    flex-direction: column;
 `
 export const AddTaskButton = styled.button`
     width: calc(100% - 24px);

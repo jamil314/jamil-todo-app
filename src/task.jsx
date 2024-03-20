@@ -11,6 +11,8 @@ import twoStar from './assets/star-2.png'
 import threeStar from './assets/star-3.png'
 import fourStar from './assets/star-4.png'
 import fiveStar from './assets/star-on.png'
+import calendar from './assets/calendar.png'
+import time from './assets/time.png'
 import CircularProgressBar from './circularProgressbar';
 
 const Task = ({task}) => {
@@ -26,6 +28,7 @@ const Task = ({task}) => {
         totalMilestone === completedMilestone ? "Done" : "Pending"
 
     const TaskCard = styled.li`
+    width: 40rem;
     list-style: none;
     opacity: ${task.status==="Done" ? 0.5 : 1};
     background-color: var(--color-highlight);
@@ -52,12 +55,13 @@ const MileLabel = styled.span`
 `
 const Action = styled.div`
     position: absolute;
-    top: 1rem;
+    /* top: 1rem; */
+    bottom: 1rem;
     right: 1rem;
     border-radius: 20px;
-    opacity: 0;
+    /* opacity: 0; */
+    /* transform: translateY(100%); */
     transition: opacity 0.3s, transform 0.3s;
-    transform: translateY(-100%);
 `
 const ActionButton = styled.img`
     height: 40px;
@@ -74,13 +78,38 @@ const Header = styled.div`
     /* justify-content: space-between; */
     border-bottom: 2px solid;
     margin-bottom: 1rem;
-    div{
-        margin: 0 8px;
-    }
+    padding-bottom: 0.5rem;
 `
 const Title = styled.div`
     font-size: x-large;
     font-weight: 800;
+    margin-right: calc(80px - 2rem);
+    /* overflow-x: hidden;
+    overflow-y: auto; */
+`
+const Tags = styled.div`
+    right: 1rem;
+    top: 1rem;
+    position: absolute;
+    display: flex;
+    :first-child{
+        margin-right: 0.5rem;
+    }
+`
+const Footer = styled.div`
+    height: 40px;
+    border-top: 2px solid black;
+    margin-top: 0.5rem;
+    padding-top: 1rem;
+`
+
+const DeadlineContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    img{
+        height: 1rem;
+        margin-right: 0.5rem;
+    }
 `
 
 
@@ -89,6 +118,35 @@ const updateTASK = useTaskStore((state) => state.updateTask);
 const updateTask = useCreateOrUpdateTaskStore((state) => state.updateTask);
 
     const [action, setAction] = useState(null)
+
+    const getCountDown = deadline => {
+        const now = new Date().getTime();
+        const countDownDate = new Date(deadline).getTime() + 24 * 60 * 60 * 1000 - 1;
+      
+        const difference = countDownDate - now;
+      
+        if (difference < 0) {
+          return "Deadline Passed";
+        }
+      
+        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+      
+        const today = new Date();
+        const tomorrow = new Date(today);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+      
+        let countdownString = "";
+        if (days === 0) {
+          countdownString = "0 day remaining";
+        //   countdownString = "Today";
+        } else if (tomorrow.toDateString() === new Date(countDownDate).toDateString()) {
+          countdownString = "Tomorrow";
+        } else {
+          countdownString = `${days} day${days > 1 ? "s" : ""} remaining`;
+        }
+      
+        return countdownString;
+    }
 
   return (
     <TaskCard>
@@ -106,14 +164,14 @@ const updateTask = useCreateOrUpdateTaskStore((state) => state.updateTask);
         </Action>
         <Header>
             <Title>{task.title}</Title>
-            <div>
+            <Tags>
                 <img
                     alt='Priority'
                     src={[StarOff, oneStar, twoStar, threeStar, fourStar, fiveStar][task.priority]}
                     height={40}
                 />
                 <CircularProgressBar total={100} completed={task.progress} />
-            </div>
+            </Tags>
         </Header>
         <span>{task.description}</span>
         <div>
@@ -138,6 +196,21 @@ const updateTask = useCreateOrUpdateTaskStore((state) => state.updateTask);
                 )
             })}
         </div>
+        <Footer>
+            {task['deadline-active'] ?
+                <DeadlineContainer>
+                    <span> 
+                        <img src={calendar} alt=''/>
+                        {task['deadline-date']}
+                    </span> 
+                    <span>
+                        <img src={time} alt=''/>
+                        {getCountDown(task['deadline-date'])}
+                    </span>
+                </DeadlineContainer> 
+                : <span>Take your Time</span>
+            }
+        </Footer>
     </TaskCard>
   )
 }
